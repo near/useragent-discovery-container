@@ -7,14 +7,11 @@ export const config = {
 
 export function middleware(req: NextRequest) {
   // Parse user agent
-  const { device } = userAgent(req)
+  const { isBot } = userAgent(req)
 
-  // Check the viewport
-  const viewport = device.type === 'mobile' ? 'mobile' : 'desktop'
+  console.log('IsBot? ', isBot)
 
-  // Update the expected url
-  req.nextUrl.pathname = `_viewport/${viewport}`
-
-  // Return rewrited response
-  return NextResponse.rewrite(req.nextUrl)
+  if(!isBot) {
+    return NextResponse.redirect("https://alpha.near.org")
+  } 
 }
